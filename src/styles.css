@@ -220,3 +220,524 @@ input {
     padding: 24px;
   }
 }
+
+/* ---------- 通用 ---------- */
+.muted {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1px solid;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.link-btn {
+  min-height: 32px;
+  padding: 0 10px;
+  border-color: transparent;
+  background: transparent;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+.danger {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+.empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #94a3b8;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 100;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+  animation: toast-in 0.2s ease;
+}
+.toast-success {
+  background: var(--secondary);
+}
+.toast-error {
+  background: #dc2626;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ---------- 步骤条 ---------- */
+.stepper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.stepper .step {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #94a3b8;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+.stepper .step.done {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 10%, #fff);
+}
+.stepper .step.active {
+  color: #fff;
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.stepper .step.waiting {
+  color: #dc2626;
+  border-color: #dc2626;
+  background: color-mix(in srgb, #dc2626 8%, #fff);
+}
+.stepper .sep {
+  color: #cbd5e1;
+}
+
+/* ---------- 横幅 ---------- */
+.banner {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.banner-red {
+  background: color-mix(in srgb, #dc2626 8%, #fff);
+  border: 1px solid color-mix(in srgb, #dc2626 30%, #fff);
+  color: #991b1b;
+}
+.restock-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 10px;
+  margin-top: 10px;
+}
+.restock-row label {
+  min-width: 140px;
+}
+
+/* ---------- 马匹列表 ---------- */
+.horse-list {
+  display: grid;
+  gap: 12px;
+}
+.horse-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfdff;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.horse-card:hover {
+  border-color: var(--accent);
+}
+.horse-card.selected {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 18%, #fff);
+}
+.horse-card.no-order {
+  cursor: default;
+}
+.horse-main {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+.horse-main > b {
+  display: grid;
+  place-items: center;
+  height: 46px;
+  border-radius: 8px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  font-size: 13px;
+}
+.horse-main h3 {
+  margin: 0 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.horse-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.usage-tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+.usage-tag.sport {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, #fff);
+}
+.usage-tag.rest {
+  color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 10%, #fff);
+}
+.hoof-summary {
+  margin: 0;
+  font-size: 13px;
+  color: #526071;
+}
+.gait-issue {
+  color: #d97706;
+  font-weight: 600;
+}
+
+/* ---------- 适配单详情 ---------- */
+.order-detail .heading h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.order-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 13px;
+  color: #526071;
+  white-space: nowrap;
+}
+.hoof-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.hoof-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+.hoof-card header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hoof-card header b {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  color: #fff;
+  background: var(--primary);
+  font-size: 13px;
+}
+.hoof-card header span {
+  font-weight: 700;
+}
+.hoof-card label {
+  gap: 4px;
+}
+.hoof-card label span {
+  font-size: 12px;
+}
+.shoe-pick {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1 dashed var(--border);
+}
+.shoe-pick select {
+  width: 100%;
+  min-height: 38px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  padding: 0 8px;
+  background: #fff;
+}
+.shoe-locked {
+  padding: 8px 10px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--secondary) 8%, #fff);
+  border: 1px solid color-mix(in srgb, var(--secondary) 25%, #fff);
+  font-size: 13px;
+  color: var(--secondary);
+}
+.diff-warn {
+  display: inline-block;
+  margin-left: 6px;
+  color: #dc2626;
+  font-style: normal;
+  font-weight: 700;
+}
+.action-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+/* ---------- 试装确认 ---------- */
+.confirm-panel {
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, #d97706 35%, #fff);
+  border-radius: 8px;
+  background: color-mix(in srgb, #d97706 6%, #fff);
+  margin-bottom: 16px;
+}
+.confirm-panel h3 {
+  margin: 0 0 6px;
+}
+.confirm-streak {
+  margin: 10px 0;
+  font-size: 14px;
+}
+.confirm-streak b {
+  color: var(--primary);
+  font-size: 18px;
+}
+.confirm-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 10px;
+}
+.confirm-row label {
+  min-width: 180px;
+}
+.confirm-row select {
+  width: 100%;
+  min-height: 38px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  padding: 0 8px;
+  background: #fff;
+}
+.confirm-log {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+.confirm-log li {
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid var(--border);
+}
+.confirm-log li.ok {
+  color: var(--secondary);
+}
+.confirm-log li.bad {
+  color: #dc2626;
+}
+
+/* ---------- 操作履历 ---------- */
+.order-log h3 {
+  margin: 0 0 8px;
+}
+.order-log ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+  max-height: 260px;
+  overflow: auto;
+}
+.order-log li {
+  display: flex;
+  gap: 10px;
+  font-size: 13px;
+  color: #526071;
+  line-height: 1.6;
+}
+.log-time {
+  color: #94a3b8;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- 提醒 ---------- */
+.reminder-list {
+  display: grid;
+  gap: 10px;
+}
+.reminder-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  background: #fbfdff;
+  cursor: pointer;
+}
+.reminder-card h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+}
+.reminder-card p {
+  margin: 0;
+  font-size: 13px;
+  color: #526071;
+}
+
+/* ---------- 履历 ---------- */
+.history-list {
+  display: grid;
+  gap: 12px;
+}
+.history-card {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fbfdff;
+}
+.history-head {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+.history-head > b {
+  display: grid;
+  place-items: center;
+  height: 44px;
+  border-radius: 8px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  font-size: 12px;
+}
+.history-head h3 {
+  margin: 0;
+}
+.history-hooves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 13px;
+  color: #526071;
+}
+
+/* ---------- 库存 ---------- */
+.shoe-inventory {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.shoe-chip {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #f8fafc;
+  font-size: 13px;
+}
+.shoe-chip.locked {
+  background: color-mix(in srgb, #d97706 10%, #fff);
+  border-color: color-mix(in srgb, #d97706 35%, #fff);
+  color: #92400e;
+}
+.shoe-chip em {
+  font-style: normal;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+/* ---------- 标签页 ---------- */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 16px;
+  border-radius: 999px;
+}
+.tabs button.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.tab-badge {
+  font-style: normal;
+  background: #dc2626;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+}
+.tabs button.active .tab-badge {
+  background: #fff;
+  color: var(--primary);
+}
+
+@media (max-width: 860px) {
+  .hoof-grid {
+    grid-template-columns: 1fr;
+  }
+  .order-meta {
+    align-items: flex-start;
+  }
+}
