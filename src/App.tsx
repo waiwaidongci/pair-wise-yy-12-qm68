@@ -1,128 +1,114 @@
+import { useMemo, useState } from "react";
 import "./styles.css";
+import { StoreProvider, useStore } from "./store";
+import { daysBetween, isActive, todayISO } from "./domain";
+import { OrdersPage } from "./components/OrdersPage";
+import { RemindersPage } from "./components/RemindersPage";
+import { PortfolioPage } from "./components/PortfolioPage";
+import { StockHistoryPage } from "./components/StockHistoryPage";
 
-const project = {
-  "sourceNo": 6,
-  "id": "hxyfront-62011",
-  "port": 62011,
-  "title": "马术蹄铁修整档案",
-  "domain": "马术蹄铁",
-  "prompt": "做一个面向马术俱乐部蹄铁师的修蹄记录前端项目，可以记录马匹编号、步态问题、蹄形评估、蹄铁类型、钉位、修蹄日期、下次复查日期和照片备注。页面需要有马匹列表、复查提醒、左右前后蹄对比记录、异常步态标记和蹄铁更换历史。",
-  "palette": [
-    "#78350f",
-    "#166534",
-    "#2563eb"
-  ],
-  "metrics": [
-    "待复查",
-    "异常步态",
-    "更换蹄铁",
-    "马匹档案"
-  ],
-  "filters": [
-    "前蹄",
-    "后蹄",
-    "运动马",
-    "休养马"
-  ],
-  "fields": [
-    "马匹编号",
-    "步态问题",
-    "蹄形评估",
-    "蹄铁类型",
-    "钉位",
-    "下次复查"
-  ],
-  "records": [
-    [
-      "HORSE-18",
-      "右前蹄外侧磨耗",
-      "铝蹄铁",
-      "14天后复查"
-    ],
-    [
-      "HORSE-27",
-      "后蹄裂纹",
-      "加护蹄垫",
-      "拍照归档"
-    ],
-    [
-      "HORSE-31",
-      "步态轻微不稳",
-      "需教练复核",
-      "已标记"
-    ]
-  ]
-};
+type Tab = "orders" | "reminders" | "portfolio" | "stock";
 
-function App() {
+const TABS: { key: Tab; label: string }[] = [
+  { key: "orders", label: "适配单" },
+  { key: "reminders", label: "复查提醒" },
+  { key: "portfolio", label: "马匹档案" },
+  { key: "stock", label: "库存与履历" },
+];
+
+function Metrics() {
+  const { state } = useStore();
+  const today = todayISO();
+  const metrics = useMemo(() => {
+    const pendingReview = state.orders.filter(
+      (o) => o.status === "released" && o.reviewDueAt && daysBetween(today, o.reviewDueAt) <= 7
+    ).length;
+    const abnormal = state.orders.filter(
+      (o) =>
+        isActive(o) &&
+        (Object.values(o.hooves).some((h) => h.gait === "mild" || h.gait === "severe"))
+    ).length;
+    const locked = state.orders
+      .filter(isActive)
+      .reduce((n, o) => n + o.allocations.length, 0);
+    const horses = state.horses.length;
+    return [
+      { label: "7日内待复查", value: pendingReview, tone: "m-green" },
+      { label: "异常步态在档", value: abnormal, tone: "m-amber" },
+      { label: "蹄铁锁定中", value: locked, tone: "m-blue" },
+      { label: "马匹档案", value: horses, tone: "m-brown" },
+    ];
+  }, [state, today]);
+
+  return (
+    <section className="metrics">
+      {metrics.map((m) => (
+        <article key={m.label} className={m.tone}>
+          <small>{m.label}</small>
+          <strong>{m.value}</strong>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function Toasts() {
+  const { toasts } = useStore();
+  return (
+    <div className="toasts">
+      {toasts.map((t) => (
+        <div key={t.id} className={`toast toast-${t.kind}`}>
+          {t.text}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Shell() {
+  const [tab, setTab] = useState<Tab>("orders");
+
   return (
     <main className="app">
-      <section className="hero">
-        <p>{project.id} · 源提示词{project.sourceNo} · Port {project.port}</p>
-        <h1>{project.title}</h1>
-        <span>{project.prompt}</span>
-      </section>
-
-      <section className="metrics">
-        {project.metrics.map((metric: string, index: number) => (
-          <article key={metric}>
-            <small>{metric}</small>
-            <strong>{[28, 6, 14, 91][index] ?? 10}</strong>
-          </article>
-        ))}
-      </section>
-
-      <section className="workspace">
-        <aside className="panel">
-          <h2>{project.domain}分类</h2>
-          <div className="chips">
-            {project.filters.map((item: string) => (
-              <button key={item}>{item}</button>
-            ))}
-          </div>
-        </aside>
-
-        <section className="panel form-panel">
-          <div className="heading">
-            <div>
-              <p>专业字段</p>
-              <h2>新增记录</h2>
-            </div>
-            <button className="primary">保存记录</button>
-          </div>
-          <div className="field-grid">
-            {project.fields.map((field: string) => (
-              <label key={field}>
-                <span>{field}</span>
-                <input placeholder={"填写" + field} />
-              </label>
-            ))}
-          </div>
-        </section>
-      </section>
-
-      <section className="panel">
-        <div className="heading">
-          <div>
-            <p>近期记录</p>
-            <h2>工作台摘要</h2>
-          </div>
-          <button>导出CSV</button>
+      <header className="topbar">
+        <div>
+          <p className="eyebrow">四蹄适配 · 复查放行工作台</p>
+          <h1>马术蹄铁修整档案</h1>
         </div>
-        <div className="records">
-          {project.records.map((record: string[], index: number) => (
-            <article key={record.join("-")}>
-              <b>{String(index + 1).padStart(2, "0")}</b>
-              <div>
-                <h3>{record[0]}</h3>
-                <p>{record.slice(1).join(" · ")}</p>
-              </div>
-            </article>
+        <nav className="tabs">
+          {TABS.map((t) => (
+            <button
+              key={t.key}
+              className={tab === t.key ? "tab tab-on" : "tab"}
+              onClick={() => setTab(t.key)}
+            >
+              {t.label}
+            </button>
           ))}
-        </div>
-      </section>
+        </nav>
+      </header>
+
+      <Metrics />
+
+      {tab === "orders" && <OrdersPage />}
+      {tab === "reminders" && <RemindersPage />}
+      {tab === "portfolio" && <PortfolioPage />}
+      {tab === "stock" && <StockHistoryPage />}
+
+      <footer className="foot">
+        规则：一匹马至多一张未结束适配单 · 四蹄尺寸/步态/钉位齐全才能领料 · 领出即锁，重复并发只留先到 ·
+        尺寸差超 2mm 停待备料 · 换人连续两次稳定才放行 · 改蹄记录即作废放行并重算复查日
+      </footer>
+
+      <Toasts />
     </main>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <StoreProvider>
+      <Shell />
+    </StoreProvider>
+  );
+}
